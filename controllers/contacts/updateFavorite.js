@@ -1,21 +1,29 @@
-const createError = require("http-errors");
-const { Contact } = require("../../service/schemas/contact");
+const service = require("../../service");
 
-const updateFavorite = async (req, res) => {
+const updateFavorite = async (req, res, next) => {
   const { id } = req.params;
-  const result = await Contact.findByIdAndUpdate(id, req.body, {
-    new: true,
-  });
-  if (!result) {
-    throw createError(404, "missing field favorite");
+  const favorite = req.body;
+  
+  try {
+    const result = await service.updateFieldFavorite(id, favorite);
+    if (result) {
+      res.json({
+        status: "success",
+        code: 200,
+        data: { contact: result },
+      });
+    } else {
+      res.status(404).json({
+        status: "error",
+        code: 404,
+        message: `Missing field favorite`,
+        data: "Not Found",
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
   }
-  res.json({
-    status: "success",
-    code: 200,
-    data: {
-      result,
-    },
-  });
 };
 
 module.exports = updateFavorite;

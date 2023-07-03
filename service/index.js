@@ -16,6 +16,10 @@ const updateContact = (id, body) => {
   return Contact.findByIdAndUpdate({ _id: id }, body, { new: true });
 };
 
+const updateFieldFavorite = (id, body) => {
+  return Contact.findByIdAndUpdate(id, body, { new: true });
+};
+
 const removeContact = (id) => {
   return Contact.findByIdAndRemove({ _id: id });
 };
@@ -26,6 +30,7 @@ const service = {
   createContact,
   updateContact,
   removeContact,
+  updateFieldFavorite,
 };
 
 module.exports = service;
