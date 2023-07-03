@@ -2,9 +2,9 @@ const service = require("../../service");
 
 const update = async (req, res, next) => {
   const { id } = req.params;
-  const value = req.body;
+  const body = req.body;
   try {
-    const result = await service.updateContact(id, value);
+    const result = await service.updateContact(id, body);
     if (result) {
       res.json({
         status: "success",
