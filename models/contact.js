@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 const Joi = require("joi");
 
+const handleSaveErrors = require("../helpers/handelSaveErrors");
+
 const emailRegexp = require("./emailRegexp");
 
 const contactSchema = new Schema(
@@ -25,6 +27,7 @@ const contactSchema = new Schema(
   { versionKey: false, timestamps: true }
 );
 
+contactSchema.post("save", handleSaveErrors);
 
 const addSchema = Joi.object({
   name: Joi.string()

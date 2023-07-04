@@ -1,25 +1,25 @@
 const express = require("express");
 const router = express.Router();
 
-const ctrlTask = require("../../controllers/contacts");
-const { schemas } = require("../../service/schemas/contact");
+const ctrl = require("../../controllers/contacts");
+const { schemas } = require("../../models/contact");
 const { validation } = require("../../middlewares");
 const { ctrlWrapper } = require("../../helpers");
 
-router.get("/", ctrlTask.getAll);
+router.get("/", ctrl.getAll);
 
-router.get("/:id", ctrlWrapper(ctrlTask.getById));
+router.get("/:id", ctrlWrapper(ctrl.getById));
 
-router.post("/", validation(schemas.addSchema), ctrlWrapper(ctrlTask.create));
+router.post("/", validation(schemas.addSchema), ctrlWrapper(ctrl.create));
 
-router.put("/:id", validation(schemas.addSchema), ctrlWrapper(ctrlTask.update));
+router.put("/:id", validation(schemas.addSchema), ctrlWrapper(ctrl.update));
 
-router.delete("/:id", ctrlWrapper(ctrlTask.remove));
+router.delete("/:id", ctrlWrapper(ctrl.remove));
 
 router.patch(
   "/:id/favorite",
   validation(schemas.updateFavoriteSchema),
-  ctrlWrapper(ctrlTask.updateFavorite)
+  ctrlWrapper(ctrl.updateFavorite)
 );
 
 module.exports = router;
