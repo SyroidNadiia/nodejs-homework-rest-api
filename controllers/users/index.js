@@ -1,4 +1,4 @@
 const getCurrent = require("./getCurrent");
-const renewalSubscription = require("./renewalSubscription");
+const updateSubscription = require("./updateSubscription");
 
-module.exports = { getCurrent, renewalSubscription };
+module.exports = { getCurrent, updateSubscription };

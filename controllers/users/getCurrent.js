@@ -1,13 +1,16 @@
+const HttpError = require("../../helpers/HttpError");
+
 const getCurrent = async (req, res, next) => {
   try {
-    const { email, subscription } = req.user;
+    const user = req.user;
+
+    if (!user) {
+       throw HttpError(401);
+    }
+
     res.status(200).json({
-      status: "success",
-      code: 200,
-      data: {
-        email,
-        subscription,
-      },
+      email: user.email,
+      subscription: user.subscription,
     });
   } catch (error) {
     console.error(error);

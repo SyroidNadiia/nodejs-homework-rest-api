@@ -4,10 +4,16 @@ const router = express.Router();
 
 const { ctrlWrapper } = require("../../helpers");
 const ctrl = require("../../controllers/users");
-const { authenticate } = require("../../middlewares");
+const { authenticate, validation } = require("../../middlewares");
+const { schemas } = require("../../models/user");
 
 router.get("/current", authenticate, ctrlWrapper(ctrl.getCurrent));
 
-router.patch("/", authenticate, ctrlWrapper(ctrl.renewalSubscription));
+router.patch(
+  "/:id",
+  authenticate,
+  validation(schemas.subscriptionSchema),
+  ctrlWrapper(ctrl.updateSubscription)
+);
 
 module.exports = router;

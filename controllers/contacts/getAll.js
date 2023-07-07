@@ -10,8 +10,8 @@ const getAll = async (req, res, next) => {
     if (favorite) {
       filter.favorite = favorite === "true";
     }
-
-    const result = await Contact.find({ owner }, "-createdAt -updatedAt", {
+    
+    const result = await Contact.find(filter, "-createdAt -updatedAt", {
       skip,
       limit,
     }).populate("owner", "name email");

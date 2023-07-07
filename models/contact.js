@@ -40,7 +40,7 @@ const addSchema = Joi.object({
     .regex(/^[a-zA-Z0-9 ]+$/)
     .required(),
   email: Joi.string().pattern(emailRegexp).required(),
-  phone: Joi.number().integer().required(),
+  phone: Joi.string().required(),
   favorite: Joi.boolean(),
 });
 
