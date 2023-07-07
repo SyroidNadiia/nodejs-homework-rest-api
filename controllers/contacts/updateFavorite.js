@@ -1,11 +1,11 @@
-const service = require("../../service");
+const { Contact } = require("../../models/contact");
 
 const updateFavorite = async (req, res, next) => {
   const { id } = req.params;
   const favorite = req.body;
-  
+
   try {
-    const result = await service.updateFieldFavorite(id, favorite);
+    const result = await Contact.findByIdAndUpdate(id, favorite, { new: true });
     if (result) {
       res.json({
         status: "success",

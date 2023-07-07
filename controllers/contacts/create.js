@@ -1,9 +1,10 @@
-const service = require("../../service");
+const { Contact } = require("../../models/contact");
 
 const create = async (req, res, next) => {
-  console.log(req.body);
   try {
-    const result = await service.createContact(req.body);
+       const { _id: owner } = req.user;
+    console.log(owner);
+    const result = await Contact.create({ ...req.body, owner });
 
     res.status(201).json({
       status: "success",
