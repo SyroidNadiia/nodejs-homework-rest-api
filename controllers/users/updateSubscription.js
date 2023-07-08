@@ -1,16 +1,21 @@
-const { Contact } = require("../../models/contact");
+const { User } = require("../../models/user");
 
-const updateFavorite = async (req, res, next) => {
+const updateSubscription = async (req, res, next) => {
   const { id } = req.params;
-  const favorite = req.body;
+  const subscription = req.body;
 
   try {
-    const result = await Contact.findByIdAndUpdate(id, favorite, { new: true });
+    const result = await User.findByIdAndUpdate(id, subscription, {
+      new: true,
+    });
     if (result) {
       res.json({
         status: "success",
         code: 200,
-        data: { contact: result },
+        data: {
+          email: result.email,
+          subscription: result.subscription,
+        },
       });
     } else {
       res.status(404).json({
@@ -26,4 +31,4 @@ const updateFavorite = async (req, res, next) => {
   }
 };
 
-module.exports = updateFavorite;
+module.exports = updateSubscription;
