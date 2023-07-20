@@ -1,0 +1,2 @@
+{"level":"info","message":"Отримано запит","method":"POST","url":"/api/auth/register"}
+{"level":"info","message":"Отримано запит","method":"GET","url":"/api/auth/verify/toq_gWpZL_DrkWJ3dgvX2"}

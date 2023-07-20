@@ -1,6 +1,9 @@
 const bcrypt = require("bcrypt");
 const gravatar = require("gravatar");
 const { nanoid } = require("nanoid");
+const handlebars = require("handlebars");
+const fs = require("fs");
+const path = require("path");
 
 const { User } = require("../../models/user");
 const HttpError = require("../../helpers/HttpError");
@@ -33,10 +36,24 @@ const register = async (req, res, next) => {
       verificationToken,
     });
 
+    const templatePath = path.join(
+      __dirname,
+      "..",
+      "..",
+      "views",
+      "verifyEmailTemplate.hbs"
+    );
+
+    const emailTemplate = fs.readFileSync(templatePath, "utf-8");
+    const compiledTemplate = handlebars.compile(emailTemplate);
+
+    const verificationLink = `${BASE_URL}/api/auth/verify/${verificationToken}`;
+    const emailContent = compiledTemplate({ verificationLink });
+
     const verifyEmail = {
       to: email,
       subject: "Verify email",
-      html: `<a target="_blank" href="${BASE_URL}/api/auth/verify/${verificationToken}">Click verify email</a>`,
+      html: emailContent,
     };
 
     await sendEmail(verifyEmail);
