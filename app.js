@@ -2,12 +2,10 @@ const express = require("express");
 const logger = require("morgan");
 const cors = require("cors");
 const winston = require("winston");
-const dotenv = require("dotenv");
+require('dotenv').config();
 
 const createDOMPurify = require("dompurify");
 const { JSDOM } = require("jsdom");
-
-dotenv.config();
 
 const contactsRouter = require("./routes/api/contacts");
 const authRouter = require("./routes/api/auth");
@@ -15,8 +13,6 @@ const usersRouter = require("./routes/api/users");
 
 const app = express();
 const formatsLogger = app.get("env") === "development" ? "dev" : "short";
-
-
 
 const winstonLogger = winston.createLogger({
   transports: [

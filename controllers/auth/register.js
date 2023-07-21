@@ -8,10 +8,6 @@ const path = require("path");
 const { User } = require("../../models/user");
 const HttpError = require("../../helpers/HttpError");
 
-const dotenv = require("dotenv");
-
-dotenv.config();
-
 const { sendEmail } = require("../../helpers");
 const { BASE_URL } = process.env;
 
