@@ -1,7 +1,7 @@
-
 const { User } = require("../../models/user");
-const HttpError = require("../../helpers/HttpError");
-const { createVerifyEmail, sendEmail } = require("../../helpers");
+const { createVerifyEmail, sendEmail, HttpError } = require("../../helpers");
+
+const { nanoid } = require("nanoid");
 
 const resendEmail = async (req, res) => {
   const { email } = req.body;
@@ -13,8 +13,12 @@ const resendEmail = async (req, res) => {
     throw HttpError(400, "Verification has already been passed");
   }
 
-  const mail = createVerifyEmail(email, user.verificationToken);
-  await sendEmail(mail);
+  const newVerificationToken = nanoid();
+  user.verificationToken = newVerificationToken;
+  await user.save();
+
+  const verifyEmail = createVerifyEmail(newVerificationToken, email);
+  await sendEmail(verifyEmail);
 
   res.json({
     status: "success",
