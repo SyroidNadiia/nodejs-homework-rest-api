@@ -1,12 +1,9 @@
 const bcrypt = require("bcrypt");
+const { increaseLoginAttempts } = require("../../utils/authUtils");
 const jwt = require("jsonwebtoken");
 
 const { User } = require("../../models/user");
 const HttpError = require("../../helpers/HttpError");
-
-const dotenv = require("dotenv");
-
-dotenv.config();
 
 const { SECRET_KEY } = process.env;
 
@@ -15,14 +12,15 @@ const login = async (req, res, next) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
 
-    if (!user) {
+    const passwordCompare = await bcrypt.compare(password, user.password);
+
+    if (!user || !passwordCompare) {
+      await increaseLoginAttempts(email);
       throw HttpError(401, "Email or password is wrong");
     }
 
-    const passwordCompare = await bcrypt.compare(password, user.password);
-
-    if (!passwordCompare) {
-      throw HttpError(401, "Email or password is wrong");
+    if (!user.verify) {
+      throw HttpError(401, `Verification not confirmed`);
     }
 
     const payload = {
